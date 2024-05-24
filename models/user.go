@@ -9,7 +9,6 @@ type User struct {
 	FirstName       string
 	LastName        string
 	UsualFullName   string
-	URL             string
 	Phone           string
 	Displayname     string
 	Kind            string
@@ -22,4 +21,5 @@ type User struct {
 	UpdatedAt       time.Time
 	Alumni          bool
 	Active          bool
+	Teams           []*Team `gorm:"many2many:user_teams;"`
 }

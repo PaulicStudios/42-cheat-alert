@@ -9,6 +9,8 @@ func UpdateProjects() {
 	projectUsers := requests.GetRecentProjectUsers()
 	for _, projectUser := range projectUsers {
 		db.SaveApiUser(&projectUser.User)
-		// db.SaveTeams(projectUser.Teams)
+		for _, team := range projectUser.Teams {
+			db.SaveApiTeam(&projectUser.User, &team)
+		}
 	}
 }

@@ -22,7 +22,6 @@ func SaveApiUser(user *apimodels.User) {
 		FirstName:       user.FirstName,
 		LastName:        user.LastName,
 		UsualFullName:   user.UsualFullName,
-		URL:             user.URL,
 		Phone:           user.Phone,
 		Displayname:     user.Displayname,
 		Kind:            user.Kind,
@@ -38,9 +37,25 @@ func SaveApiUser(user *apimodels.User) {
 	})
 }
 
-// func SaveTeam(team models.Team) {
-// 	db.Save(&team)
-// }
+func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) {
+	db.Model(&models.User{ID: user.ID}).Association("Teams").Append(&models.Team{
+		ID:                team.ID,
+		Name:              team.Name,
+		FinalMark:         team.FinalMark,
+		ProjectID:         team.ProjectID,
+		CreatedAt:         team.CreatedAt,
+		UpdatedAt:         team.UpdatedAt,
+		Status:            team.Status,
+		Locked:            team.Locked,
+		Validated:         team.Validated,
+		Closed:            team.Closed,
+		RepoURL:           team.RepoURL,
+		RepoUUID:          team.RepoUUID,
+		LockedAt:          team.LockedAt,
+		ProjectSessionID:  team.ProjectSessionID,
+		ProjectGitlabPath: team.ProjectGitlabPath,
+	})
+}
 
 // func SaveTeams(team []models.Team) {
 // 	db.Save(&team)
