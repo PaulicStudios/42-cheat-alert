@@ -2,6 +2,7 @@ package requests
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"os"
 
@@ -20,7 +21,7 @@ func GetTokenSetClient() {
 	ctx := context.Background()
 	_, err := config.Token(ctx)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	httpClient = config.Client(ctx)

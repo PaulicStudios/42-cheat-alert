@@ -1,6 +1,7 @@
 package db
 
 import (
+	"log"
 	"os"
 
 	"github.com/PaulicStudios/42-cheat-alert/models"
@@ -16,13 +17,13 @@ func ConnectDB() {
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatal("failed to connect database")
 	}
-	println("Connected to database")
+	log.Println("Connected to database")
 	MigrateDB()
 }
 
 func MigrateDB() {
 	db.AutoMigrate(&models.User{})
-	println("Migrated database")
+	log.Println("Migrated database")
 }
