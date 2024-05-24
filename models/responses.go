@@ -13,7 +13,7 @@ type ProjectsUsers []struct {
 	CursusIds     []int     `json:"cursus_ids"`
 	MarkedAt      time.Time `json:"marked_at"`
 	Marked        bool      `json:"marked"`
-	RetriableAt   any       `json:"retriable_at"`
+	RetriableAt   time.Time `json:"retriable_at"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
 	User          User      `json:"user"`

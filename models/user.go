@@ -21,11 +21,11 @@ type User struct {
 	PoolYear        string    `json:"pool_year"`
 	Location        string    `json:"location"`
 	Wallet          int       `json:"wallet"`
-	AnonymizeDate   time.Time `json:"anonymize_date"`
-	DataErasureDate time.Time `json:"data_erasure_date"`
+	AnonymizeDate   time.Time `json:"anonymize_date" gorm:"-"`
+	DataErasureDate time.Time `json:"data_erasure_date" gorm:"-"`
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
-	AlumnizedAt     time.Time `json:"alumnized_at"`
+	AlumnizedAt     time.Time `json:"alumnized_at" gorm:"-"`
 	Alumni          bool      `json:"alumni?"`
 	Active          bool      `json:"active?"`
 }
@@ -44,5 +44,5 @@ type Project struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Slug     string `json:"slug"`
-	ParentID any    `json:"parent_id"`
+	ParentID int    `json:"parent_id"`
 }

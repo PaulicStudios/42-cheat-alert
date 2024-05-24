@@ -8,7 +8,7 @@ import (
 
 func GetRecentProjectUsers() models.ProjectsUsers {
 	resp := models.ProjectsUsers{}
-	err := request("https://api.intra.42.fr/v2/projects_users?filter[project_id]=1&filter[status]=finished", &resp)
+	err := request("https://api.intra.42.fr/v2/projects_users", &resp)
 	if err != nil {
 		log.Println(err)
 		return nil
