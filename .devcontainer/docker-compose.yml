@@ -6,14 +6,19 @@ services:
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
-    network_mode: "host"
+    networks:
+      - default
   mysql:
     image: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: app
       MYSQL_USER: app
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: password
+    networks:
+      - default
 
 volumes:
   mysql-data:
