@@ -1,0 +1,19 @@
+{
+	"name": "42-cheat-alert",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"settings": {
+			"go.gopath": "/go",
+			"go.toolsGopath": "/go",
+			"go.useLanguageServer": true
+		},
+		"vscode": {
+			"extensions": [
+				"golang.go",
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	}
+}
