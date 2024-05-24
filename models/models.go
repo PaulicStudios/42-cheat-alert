@@ -9,23 +9,23 @@ type User struct {
 	FirstName       string    `json:"first_name"`
 	LastName        string    `json:"last_name"`
 	UsualFullName   string    `json:"usual_full_name"`
-	UsualFirstName  any       `json:"usual_first_name"`
+	UsualFirstName  string    `json:"usual_first_name"`
 	URL             string    `json:"url"`
 	Phone           string    `json:"phone"`
 	Displayname     string    `json:"displayname"`
 	Kind            string    `json:"kind"`
-	Image           Image     `json:"image"`
+	Image           Image     `json:"image" gorm:"-"`
 	Staff           bool      `json:"staff?"`
 	CorrectionPoint int       `json:"correction_point"`
 	PoolMonth       string    `json:"pool_month"`
 	PoolYear        string    `json:"pool_year"`
-	Location        any       `json:"location"`
+	Location        string    `json:"location"`
 	Wallet          int       `json:"wallet"`
 	AnonymizeDate   time.Time `json:"anonymize_date"`
 	DataErasureDate time.Time `json:"data_erasure_date"`
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
-	AlumnizedAt     any       `json:"alumnized_at"`
+	AlumnizedAt     time.Time `json:"alumnized_at"`
 	Alumni          bool      `json:"alumni?"`
 	Active          bool      `json:"active?"`
 }
