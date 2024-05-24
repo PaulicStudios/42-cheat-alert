@@ -4,13 +4,13 @@ import (
 	"log"
 	"time"
 
-	"github.com/PaulicStudios/42-cheat-alert/models"
+	"github.com/PaulicStudios/42-cheat-alert/apimodels"
 )
 
-func GetRecentProjectUsers() models.ProjectsUsers {
-	resp := models.ProjectsUsers{}
+func GetRecentProjectUsers() apimodels.ProjectsUsers {
+	resp := apimodels.ProjectsUsers{}
 	now := time.Now().Format("2006-01-02T15:04:05.000Z")
-	yearAgo := time.Now().AddDate(0, -0, 0).Format("2006-01-02T15:04:05.000Z")
+	yearAgo := time.Now().AddDate(0, -1, 0).Format("2006-01-02T15:04:05.000Z")
 	url := "https://api.intra.42.fr/v2/projects_users" +
 		"?filter[final_mark]=-42" +
 		"&filter[campus]=39" +
