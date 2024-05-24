@@ -10,4 +10,5 @@ func main() {
 	godotenv.Load()
 	db.ConnectDB()
 	requests.GetTokenSetClient()
+	requests.Test()
 }

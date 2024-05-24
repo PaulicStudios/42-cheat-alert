@@ -17,7 +17,7 @@ func ConnectDB() {
 		panic("failed to connect database")
 	}
 	println("Connected to database")
-	MigrateDB()
+	// MigrateDB()
 }
 
 func MigrateDB() {
