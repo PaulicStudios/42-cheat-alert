@@ -15,7 +15,7 @@ func UpdateProjects() {
 		for _, team := range projectUser.Teams {
 			db.SaveApiTeam(&projectUser.User, &team)
 			if db.UpdateTeamHistory(&team) {
-				telegram.SendMsgToMe("Added new team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login)
+				telegram.SendMsgToMe("Added new team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login + " in project " + strconv.Itoa(team.ProjectID))
 			}
 		}
 	}

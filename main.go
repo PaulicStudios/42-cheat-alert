@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"time"
+
 	"github.com/PaulicStudios/42-cheat-alert/cheatalert"
 	"github.com/PaulicStudios/42-cheat-alert/db"
 	"github.com/PaulicStudios/42-cheat-alert/requests"
@@ -12,6 +15,12 @@ func main() {
 	godotenv.Load()
 	db.ConnectDB()
 	requests.GetTokenSetClient()
-	cheatalert.UpdateProjects()
+	ticker := time.NewTicker(5 * time.Minute)
+	go func() {
+		for range ticker.C {
+			cheatalert.UpdateProjects()
+			log.Println("Updated projects")
+		}
+	}()
 	telegram.Init_telegram()
 }
