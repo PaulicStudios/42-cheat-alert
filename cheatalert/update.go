@@ -1,10 +1,11 @@
 package cheatalert
 
 import (
-	"log"
+	"strconv"
 
 	"github.com/PaulicStudios/42-cheat-alert/db"
 	"github.com/PaulicStudios/42-cheat-alert/requests"
+	"github.com/PaulicStudios/42-cheat-alert/telegram"
 )
 
 func UpdateProjects() {
@@ -14,10 +15,7 @@ func UpdateProjects() {
 		for _, team := range projectUser.Teams {
 			db.SaveApiTeam(&projectUser.User, &team)
 			if db.UpdateTeamHistory(&team) {
-				log.Println("User: ", projectUser.User.Login)
-				log.Println("Project: ", team.ProjectID)
-				log.Println("Team: ", team.ID)
-				log.Println("Mark: ", team.FinalMark)
+				telegram.SendMsgToMe("Added new team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login)
 			}
 		}
 	}
