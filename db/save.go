@@ -38,21 +38,26 @@ func SaveApiUser(user *apimodels.User) {
 }
 
 func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) {
-	db.Model(&models.User{ID: user.ID}).Association("Teams").Append(&models.Team{
+	teamModel := models.Team{
 		ID:                team.ID,
 		Name:              team.Name,
 		FinalMark:         team.FinalMark,
 		ProjectID:         team.ProjectID,
-		CreatedAt:         team.CreatedAt,
-		UpdatedAt:         team.UpdatedAt,
+		CreatedAt:         &team.CreatedAt,
+		UpdatedAt:         &team.UpdatedAt,
 		Status:            team.Status,
 		Locked:            team.Locked,
 		Validated:         team.Validated,
 		Closed:            team.Closed,
 		RepoURL:           team.RepoURL,
 		RepoUUID:          team.RepoUUID,
-		LockedAt:          team.LockedAt,
 		ProjectSessionID:  team.ProjectSessionID,
 		ProjectGitlabPath: team.ProjectGitlabPath,
-	})
+	}
+	if team.LockedAt.IsZero() {
+		teamModel.LockedAt = nil
+	} else {
+		teamModel.LockedAt = &team.LockedAt
+	}
+	db.Model(&models.User{ID: user.ID}).Association("Teams").Append(&teamModel)
 }
