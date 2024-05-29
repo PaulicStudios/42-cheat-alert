@@ -56,7 +56,3 @@ func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) {
 		ProjectGitlabPath: team.ProjectGitlabPath,
 	})
 }
-
-// func SaveTeams(team []models.Team) {
-// 	db.Save(&team)
-// }

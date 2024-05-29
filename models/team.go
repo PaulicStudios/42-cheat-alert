@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Team struct {
 	ID                int
@@ -19,4 +23,10 @@ type Team struct {
 	ProjectSessionID  int
 	ProjectGitlabPath string
 	Users             []*User `gorm:"many2many:user_teams;"`
+}
+
+type TeamHistory struct {
+	gorm.Model
+	TeamID    int
+	FinalMark int
 }
