@@ -26,9 +26,12 @@ func UpdateTeamHistory(team *apimodels.Teams) bool {
 			IntraUpdatedAt: &team.UpdatedAt,
 		}
 		db.Create(&TeamHistory)
-	} else if *TeamHistory.IntraUpdatedAt != team.UpdatedAt {
+	}
+	if TeamHistory.IntraUpdatedAt != nil && *TeamHistory.IntraUpdatedAt == team.UpdatedAt {
+		return false
+	} else {
 		TeamHistory.IntraUpdatedAt = &team.UpdatedAt
 		db.Update("IntraUpdatedAt", &TeamHistory)
 	}
-	return TeamHistory.FinalMark != team.FinalMark || *TeamHistory.IntraUpdatedAt != team.UpdatedAt
+	return *TeamHistory.IntraUpdatedAt != team.UpdatedAt
 }
