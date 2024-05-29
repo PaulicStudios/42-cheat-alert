@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"time"
 
 	"github.com/PaulicStudios/42-cheat-alert/cheatalert"
@@ -19,7 +18,6 @@ func main() {
 	go func() {
 		for range ticker.C {
 			cheatalert.UpdateProjects()
-			log.Println("Updated projects")
 		}
 	}()
 	telegram.Init_telegram()
