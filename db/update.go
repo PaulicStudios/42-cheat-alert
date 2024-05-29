@@ -12,18 +12,23 @@ func UpdateTeamHistory(team *apimodels.Teams) bool {
 	result := db.Order("created_at desc").Where("team_id = ?", team.ID).First(&TeamHistory)
 	if result.Error != nil {
 		TeamHistory = models.TeamHistory{
-			TeamID:    team.ID,
-			FinalMark: team.FinalMark,
+			TeamID:         team.ID,
+			FinalMark:      team.FinalMark,
+			IntraUpdatedAt: &team.UpdatedAt,
 		}
 		db.Create(&TeamHistory)
 		return true
 	}
 	if TeamHistory.FinalMark != team.FinalMark {
 		TeamHistory = models.TeamHistory{
-			TeamID:    team.ID,
-			FinalMark: team.FinalMark,
+			TeamID:         team.ID,
+			FinalMark:      team.FinalMark,
+			IntraUpdatedAt: &team.UpdatedAt,
 		}
 		db.Create(&TeamHistory)
+	} else if *TeamHistory.IntraUpdatedAt != team.UpdatedAt {
+		TeamHistory.IntraUpdatedAt = &team.UpdatedAt
+		db.Update("IntraUpdatedAt", &TeamHistory)
 	}
-	return TeamHistory.FinalMark != team.FinalMark
+	return TeamHistory.FinalMark != team.FinalMark || *TeamHistory.IntraUpdatedAt != team.UpdatedAt
 }

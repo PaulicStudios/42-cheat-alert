@@ -22,9 +22,7 @@ func UpdateProjects() {
 			for _, team := range projectUser.Teams {
 				db.SaveApiTeam(&projectUser.User, &team)
 				if db.UpdateTeamHistory(&team) {
-					if team.FinalMark == -42 {
-						telegram.SendMsgToMe("CHEATER! Added new team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login + " in project " + strconv.Itoa(team.ProjectID))
-					}
+					telegram.SendMsgToMe("Updated team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login + " in project " + team.ProjectGitlabPath)
 					log.Println("Updated team history for team", team.Name, "with final mark", team.FinalMark, "for user", projectUser.User.Login, "in project", team.ProjectID)
 				}
 			}

@@ -27,6 +27,7 @@ type Team struct {
 
 type TeamHistory struct {
 	gorm.Model
-	TeamID    int
-	FinalMark int
+	TeamID         int
+	FinalMark      int
+	IntraUpdatedAt *time.Time
 }
