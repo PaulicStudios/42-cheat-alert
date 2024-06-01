@@ -1,15 +1,41 @@
 package telegram
 
 import (
+	"strconv"
+
 	"github.com/PaulicStudios/42-cheat-alert/apimodels"
+	"github.com/PaulicStudios/42-cheat-alert/db"
 	"gopkg.in/telebot.v3"
 )
 
-func SendMsgToMe(msg string) {
-	b.Send(&telebot.Chat{ID: 379420949}, msg)
+func SendMsg(msg string, id int64) {
+	b.Send(&telebot.Chat{ID: id}, msg)
 }
 
-func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams) {
-	// msg := "Updated team history for team " + team.Name + " with final mark " + team.FinalMark + " for user " + user.Login + " in project " + team.ProjectID
-	// SendMsgToMe(msg)
+func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimodels.Project) {
+	var msg string
+	if team.FinalMark == -42 {
+		msg = "Cheater Detected!\n"
+	} else {
+		msg = "Detected Change!\n"
+	}
+	msg += "Team:\n" +
+		"- Name: " + team.Name + "\n" +
+		"- Users: "
+	for ind, user := range team.Users {
+		msg += user.Login
+		if ind < len(team.Users)-1 {
+			msg += ", "
+		}
+	}
+	msg += "\n" +
+		"- Final Mark: " + strconv.Itoa(team.FinalMark) + "\n" +
+		"- Project: " + project.Name + "\n" +
+		"- Status: " + team.Status + "\n" +
+		"- Validated: " + strconv.FormatBool(team.Validated) + "\n" +
+		"- Locked: " + strconv.FormatBool(team.Locked) + "\n" +
+		"- Created At: " + team.CreatedAt.Format("02.01.2006 15:04")
+	for _, tUser := range db.AllNotifyUsers() {
+		SendMsg(msg, tUser.TUserID)
+	}
 }

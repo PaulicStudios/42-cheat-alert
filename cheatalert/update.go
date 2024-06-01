@@ -6,6 +6,7 @@ import (
 	"github.com/PaulicStudios/42-cheat-alert/apimodels"
 	"github.com/PaulicStudios/42-cheat-alert/db"
 	"github.com/PaulicStudios/42-cheat-alert/requests"
+	"github.com/PaulicStudios/42-cheat-alert/telegram"
 )
 
 func UpdateProjects() {
@@ -20,7 +21,7 @@ func UpdateProjects() {
 			for _, team := range projectUser.Teams {
 				db.SaveApiTeam(&projectUser.User, &team)
 				if db.UpdateTeamHistory(&team) {
-					// telegram.SendMsgToMe("Updated team history for team " + team.Name + " with final mark " + strconv.Itoa(team.FinalMark) + " for user " + projectUser.User.Login + " in project " + team.ProjectGitlabPath)
+					telegram.SendUpdateMsgs(&projectUser.User, &team, &projectUser.Project)
 					log.Println("Updated team history for team", team.Name, "with final mark", team.FinalMark, "for user", projectUser.User.Login, "in project", team.ProjectID)
 				}
 			}

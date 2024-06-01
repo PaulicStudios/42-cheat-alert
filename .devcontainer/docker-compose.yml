@@ -19,6 +19,8 @@ services:
       MYSQL_ROOT_PASSWORD: password
     networks:
       - default
+    ports:
+      - 3306:3306
 
 volumes:
   mysql-data:
