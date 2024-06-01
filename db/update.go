@@ -19,14 +19,6 @@ func UpdateTeamHistory(team *apimodels.Teams) bool {
 		db.Create(&TeamHistory)
 		return true
 	}
-	if TeamHistory.FinalMark != team.FinalMark {
-		TeamHistory = models.TeamHistory{
-			TeamID:         team.ID,
-			FinalMark:      team.FinalMark,
-			IntraUpdatedAt: &team.UpdatedAt,
-		}
-		db.Create(&TeamHistory)
-	}
 	if TeamHistory.IntraUpdatedAt != nil && *TeamHistory.IntraUpdatedAt == team.UpdatedAt {
 		return false
 	} else {

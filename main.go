@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -26,6 +27,7 @@ func main() {
 	case "update":
 		cheatalert.UpdateProjectsLastMonth()
 	case "timer":
+		log.Println("Starting timer")
 		ticker := time.NewTicker(2 * time.Minute)
 		go func() {
 			for range ticker.C {

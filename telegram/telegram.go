@@ -23,9 +23,11 @@ func Init_telegram() {
 		return
 	}
 
-	b.Handle("/hello", func(c tele.Context) error {
-		return c.Send("Hello!")
-	})
+	b.Use(isAllowed())
+	b.Handle("/notify", notifyCommand)
+
+	adminOnly := b.Group()
+	adminOnly.Use(isAdmin())
 
 	b.Start()
 }
