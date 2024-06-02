@@ -6,4 +6,6 @@ COPY . ./
 
 RUN go build -o 42-cheat-alert
 
+ENV TZ=Europe/Berlin
+
 CMD ["./42-cheat-alert"]

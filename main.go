@@ -25,6 +25,9 @@ func main() {
 
 	switch args[1] {
 	case "update":
+		go (func() {
+			telegram.Init_telegram()
+		})()
 		cheatalert.UpdateProjectsLastMonth()
 	case "timer":
 		log.Println("Starting timer")
