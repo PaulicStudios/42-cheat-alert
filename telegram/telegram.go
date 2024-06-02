@@ -28,6 +28,8 @@ func Init_telegram() {
 
 	adminOnly := b.Group()
 	adminOnly.Use(isAdmin())
+	adminOnly.Handle("/toggleuser", toggleUser)
+	adminOnly.Handle("/toggleadmin", toggleAdmin)
 
 	b.Start()
 }

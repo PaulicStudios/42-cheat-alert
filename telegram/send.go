@@ -23,7 +23,7 @@ func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimod
 		"- Name: " + team.Name + "\n" +
 		"- Users: "
 	for ind, user := range team.Users {
-		msg += user.Login
+		msg += "https://profile.intra.42.fr/users/" + user.Login
 		if ind < len(team.Users)-1 {
 			msg += ", "
 		}
@@ -34,7 +34,7 @@ func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimod
 		"- Status: " + team.Status + "\n" +
 		"- Validated: " + strconv.FormatBool(team.Validated) + "\n" +
 		"- Locked: " + strconv.FormatBool(team.Locked) + "\n" +
-		"- Created At: " + team.CreatedAt.Format("02.01.2006 15:04")
+		"- Created At: " + team.CreatedAt.Local().Format("02.01.2006 15:04")
 	for _, tUser := range db.AllNotifyUsers() {
 		SendMsg(msg, tUser.TUserID)
 	}
