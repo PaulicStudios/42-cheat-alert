@@ -13,4 +13,5 @@ type TUser struct {
 	UserName string
 	Role     int  `gorm:"default:0"`
 	Notify   bool `gorm:"default:false"`
+	CmdCount uint `gorm:"default:0"`
 }

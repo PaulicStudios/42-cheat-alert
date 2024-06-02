@@ -5,11 +5,12 @@ import (
 
 	"github.com/PaulicStudios/42-cheat-alert/models"
 	tele "gopkg.in/telebot.v3"
+	"gorm.io/gorm"
 )
 
 func UserExists(tUser *tele.User) bool {
 	var count int64
-	db.Model(&models.TUser{}).Where("t_user_id = ?", tUser.ID).Count(&count).Update("user_name", strings.ToLower(tUser.Username))
+	db.Model(&models.TUser{}).Where("t_user_id = ?", tUser.ID).Count(&count).Update("user_name", strings.ToLower(tUser.Username)).Update("cmd_count", gorm.Expr("cmd_count + 1"))
 	return count > 0
 }
 
@@ -29,7 +30,7 @@ func StartTUser(tUser *tele.User) bool {
 	if UserExists(tUser) {
 		return true
 	}
-	res := db.Where("user_name = ?", strings.ToLower(tUser.Username)).First(&models.TUser{}).Update("t_user_id", tUser.ID)
+	res := db.Where("user_name = ?", strings.ToLower(tUser.Username)).First(&models.TUser{}).Update("t_user_id", tUser.ID).Update("cmd_count", gorm.Expr("cmd_count + 1"))
 	return res.RowsAffected != 0
 }
 
