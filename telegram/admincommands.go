@@ -11,14 +11,10 @@ func toggleUser(c tele.Context) error {
 	if len(args) != 1 {
 		return c.Send("Usage: /toggleuser <telegram_username>")
 	}
-	chat, err := c.Bot().ChatByUsername(args[0])
-	if err != nil {
-		return c.Send("Invalid telegram_username")
-	}
-	if db.DeleteTUser(chat.ID) {
-		return c.Send("User " + chat.FirstName + " deleted")
-	} else if db.AddTUser(chat.ID) {
-		return c.Send("User " + chat.FirstName + " added")
+	if db.DeleteTUser(args[0]) {
+		return c.Send("User " + args[0] + " deleted")
+	} else if db.AddTUser(args[0]) {
+		return c.Send("User " + args[0] + " added")
 	} else {
 		return c.Send("Problem with adding/deleting user")
 	}
@@ -29,16 +25,12 @@ func toggleAdmin(c tele.Context) error {
 	if len(args) != 1 {
 		return c.Send("Usage: /toggleadmin <telegram_username>")
 	}
-	chat, err := c.Bot().ChatByUsername(args[0])
-	if err != nil {
-		return c.Send("Invalid telegram_username")
-	}
-	role := db.ToggleAdmin(chat.ID)
+	role := db.ToggleAdmin(args[0])
 	if role == models.ROLE_ADMIN {
-		return c.Send("User " + chat.FirstName + " is now an admin")
+		return c.Send("User " + args[0] + " is now an admin")
 	} else if role == models.ROLE_USER {
-		return c.Send("User " + chat.FirstName + " is now user")
+		return c.Send("User " + args[0] + " is now user")
 	} else {
-		return c.Send("User " + chat.FirstName + " not found")
+		return c.Send("User " + args[0] + " not found")
 	}
 }

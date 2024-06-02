@@ -1,10 +1,15 @@
 package db
 
-import "github.com/PaulicStudios/42-cheat-alert/models"
+import (
+	"strings"
 
-func UserExists(tuserID int64) bool {
+	"github.com/PaulicStudios/42-cheat-alert/models"
+	tele "gopkg.in/telebot.v3"
+)
+
+func UserExists(tUser *tele.User) bool {
 	var count int64
-	db.Model(&models.TUser{}).Where("t_user_id = ?", tuserID).Count(&count)
+	db.Model(&models.TUser{}).Where("t_user_id = ?", tUser.ID).Count(&count)
 	return count > 0
 }
 
@@ -20,17 +25,32 @@ func AllNotifyUsers() []models.TUser {
 	return users
 }
 
-func ToggleNotify(tuserID int64) bool {
-	var user models.TUser
-	db.Where("t_user_id = ?", tuserID).First(&user).Select("notify")
-	user.Notify = !user.Notify
-	db.Save(&user)
-	return user.Notify
+func StartTUser(tUser *tele.User) bool {
+	if UserExists(tUser) {
+		return true
+	}
+	res := db.Where("user_name = ?", strings.ToLower(tUser.Username)).First(&models.TUser{}).Update("t_user_id", tUser.ID)
+	return res.RowsAffected != 0
 }
 
-func ToggleAdmin(tuserID int64) int {
+func ToggleNotify(tuserID int64) (bool, error) {
 	var user models.TUser
-	res := db.Where("t_user_id = ?", tuserID).First(&user).Select("role")
+	res := db.Where("t_user_id = ?", tuserID).First(&user).Select("id", "notify")
+	if res.Error != nil {
+		return false, res.Error
+	}
+	user.Notify = !user.Notify
+	res = db.Save(&user)
+	if res.Error != nil {
+		return false, res.Error
+	}
+	return user.Notify, nil
+}
+
+func ToggleAdmin(userName string) int {
+	var user models.TUser
+	userName = strings.ToLower(userName)
+	res := db.Where("user_name = ?", userName).First(&user).Select("role")
 	if res.RowsAffected == 0 {
 		return -1
 	}
@@ -43,12 +63,14 @@ func ToggleAdmin(tuserID int64) int {
 	return user.Role
 }
 
-func AddTUser(tuserID int64) bool {
-	res := db.Create(&models.TUser{TUserID: tuserID})
+func AddTUser(userName string) bool {
+	userName = strings.ToLower(userName)
+	res := db.Where("user_name = ?", userName).FirstOrCreate(&models.TUser{UserName: userName}).Select("id")
 	return res.RowsAffected != 0
 }
 
-func DeleteTUser(tuserID int64) bool {
-	res := db.Delete(&models.TUser{}, tuserID)
+func DeleteTUser(userName string) bool {
+	userName = strings.ToLower(userName)
+	res := db.Where("user_name = ?", userName).Delete(&models.TUser{})
 	return res.RowsAffected != 0
 }

@@ -23,8 +23,11 @@ func Init_telegram() {
 		return
 	}
 
-	b.Use(isAllowed())
-	b.Handle("/notify", notifyCommand)
+	b.Handle("/start", startCommand)
+
+	userOnly := b.Group()
+	userOnly.Use(isAllowed())
+	userOnly.Handle("/notify", notifyCommand)
 
 	adminOnly := b.Group()
 	adminOnly.Use(isAdmin())

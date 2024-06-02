@@ -8,7 +8,7 @@ import (
 func isAllowed() tele.MiddlewareFunc {
 	return func(next tele.HandlerFunc) tele.HandlerFunc {
 		return func(c tele.Context) error {
-			if !db.UserExists(c.Sender().ID) {
+			if !db.UserExists(c.Sender()) {
 				return c.Send("You are not allowed to use this bot")
 			}
 			return next(c)

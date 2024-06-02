@@ -34,6 +34,7 @@ func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimod
 		"- Status: " + team.Status + "\n" +
 		"- Validated: " + strconv.FormatBool(team.Validated) + "\n" +
 		"- Locked: " + strconv.FormatBool(team.Locked) + "\n" +
+		"- Locked At: " + team.LockedAt.Local().Format("02.01.2006 15:04") + "\n" +
 		"- Created At: " + team.CreatedAt.Local().Format("02.01.2006 15:04")
 	for _, tUser := range db.AllNotifyUsers() {
 		SendMsg(msg, tUser.TUserID)
