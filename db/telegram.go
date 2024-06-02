@@ -9,7 +9,7 @@ import (
 
 func UserExists(tUser *tele.User) bool {
 	var count int64
-	db.Model(&models.TUser{}).Where("t_user_id = ?", tUser.ID).Count(&count)
+	db.Model(&models.TUser{}).Where("t_user_id = ?", tUser.ID).Count(&count).Update("user_name", strings.ToLower(tUser.Username))
 	return count > 0
 }
 
