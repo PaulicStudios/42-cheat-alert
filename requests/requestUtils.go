@@ -3,6 +3,7 @@ package requests
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -21,7 +22,9 @@ func request(url string, target any) (*http.Response, error) {
 		if err != nil {
 			return nil, err
 		}
-		// log.Println("Rate limited, retrying in", retryAfter, "seconds")
+		if retryAfter > 1 {
+			log.Println("Rate limited, retrying in", retryAfter, "seconds")
+		}
 		time.Sleep(time.Duration(retryAfter) * time.Second)
 		return request(url, target)
 	}

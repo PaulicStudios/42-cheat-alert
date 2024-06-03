@@ -24,7 +24,7 @@ func UpdateProjects() {
 					if teamDetails != nil {
 						db.SaveApiTeamDetails(teamDetails)
 					}
-					telegram.SendUpdateMsgs(&projectUser.User, &team, &projectUser.Project)
+					telegram.SendUpdateMsgs(&projectUser.User, teamDetails, &projectUser.Project)
 					log.Println("Updated team history for team", team.Name, "with final mark", team.FinalMark, "for user", projectUser.User.Login, "in project", team.ProjectID)
 				}
 			}

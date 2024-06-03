@@ -12,7 +12,7 @@ func SendMsg(msg string, id int64) {
 	b.Send(&telebot.Chat{ID: id}, msg)
 }
 
-func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimodels.Project) {
+func SendUpdateMsgs(user *apimodels.User, team *apimodels.Team, project *apimodels.Project) {
 	var msg string
 	if team.FinalMark == -42 {
 		msg = "Cheater Detected!\n"
@@ -29,8 +29,14 @@ func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimod
 		}
 	}
 	msg += "\n" +
-		"- Final Mark: " + strconv.Itoa(team.FinalMark) + "\n" +
-		"- Project: " + project.Name + "\n" +
+		"- Final Mark: " + strconv.Itoa(team.FinalMark) + "\n"
+	for _, scaleTeam := range team.ScaleTeams {
+		msg += " - " + strconv.Itoa(scaleTeam.FinalMark) + "(" + scaleTeam.Flag.Name + "): " + "https://profile.intra.42.fr/users/" + scaleTeam.Corrector.Login + "\n"
+	}
+	for _, moulinette := range team.TeamsUploads {
+		msg += " - Moulinette: " + strconv.Itoa(moulinette.FinalMark) + "\n"
+	}
+	msg += "- Project: " + project.Name + "\n" +
 		"- Status: " + team.Status + "\n" +
 		"- closed: " + strconv.FormatBool(team.Closed) + "\n" +
 		"- Validated: " + strconv.FormatBool(team.Validated) + "\n" +
