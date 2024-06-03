@@ -43,6 +43,8 @@ func main() {
 		for _, team := range teams {
 			println(team.Name)
 		}
+	case "test":
+		println(requests.TestGetTeamDetails(12).Name)
 	default:
 		println("Usage: ./42-cheat-alert <update|timer|list>")
 	}

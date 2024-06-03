@@ -100,4 +100,16 @@ func SaveApiTeamDetails(team *apimodels.Team) {
 		}
 		db.Save(&flag)
 	}
+
+	for _, teamUpload := range team.TeamsUploads {
+		moulinette := models.Moulinette{
+			ID:        teamUpload.ID,
+			TeamID:    team.ID,
+			FinalMark: teamUpload.FinalMark,
+			Comment:   teamUpload.Comment,
+			CreatedAt: teamUpload.CreatedAt,
+			UploadID:  teamUpload.UploadID,
+		}
+		db.Save(&moulinette)
+	}
 }

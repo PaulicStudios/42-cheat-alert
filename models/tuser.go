@@ -9,9 +9,9 @@ const (
 
 type TUser struct {
 	gorm.Model
-	TUserID  int64
-	UserName string
-	Role     int  `gorm:"default:0"`
-	Notify   bool `gorm:"default:false"`
-	CmdCount uint `gorm:"default:0"`
+	TUserID  int64  `gorm:"index"`
+	UserName string `gorm:"index"`
+	Role     int    `gorm:"default:0"`
+	Notify   bool   `gorm:"default:false"`
+	CmdCount uint   `gorm:"default:0"`
 }

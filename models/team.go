@@ -20,8 +20,9 @@ type Team struct {
 	LockedAt          *time.Time
 	ProjectSessionID  int
 	ProjectGitlabPath string
-	Users             []*User      `gorm:"many2many:user_teams;"`
-	ScaleTeams        []*ScaleTeam `gorm:"foreignKey:TeamID;references:ID"`
+	Users             []User       `gorm:"many2many:user_teams;"`
+	ScaleTeams        []ScaleTeam  `gorm:"foreignKey:TeamID;references:ID"`
+	Moulinette        []Moulinette `gorm:"foreignKey:TeamID;references:ID"`
 }
 
 type ScaleTeam struct {
@@ -46,4 +47,13 @@ type Flag struct {
 	Icon      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+type Moulinette struct {
+	ID        int `gorm:"primaryKey"`
+	TeamID    int `gorm:"primaryKey"`
+	FinalMark int
+	Comment   string
+	CreatedAt time.Time
+	UploadID  int
 }
