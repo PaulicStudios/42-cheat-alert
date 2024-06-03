@@ -7,6 +7,7 @@ import (
 	"github.com/PaulicStudios/42-cheat-alert/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var db *gorm.DB
@@ -15,7 +16,9 @@ func ConnectDB() {
 	dsn := os.Getenv("MYSQL_DSN")
 
 	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Warn),
+	})
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}

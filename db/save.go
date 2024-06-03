@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"time"
 
 	"github.com/PaulicStudios/42-cheat-alert/apimodels"
 	"github.com/PaulicStudios/42-cheat-alert/models"
@@ -37,7 +38,7 @@ func SaveApiUser(user *apimodels.User) {
 	})
 }
 
-func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) {
+func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) bool {
 	teamModel := models.Team{
 		ID:                team.ID,
 		Name:              team.Name,
@@ -60,4 +61,12 @@ func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) {
 		teamModel.LockedAt = &team.LockedAt
 	}
 	db.Model(&models.User{ID: user.ID}).Association("Teams").Append(&teamModel)
+	var existingTeam models.Team
+	db.Where("id = ?", team.ID).First(&existingTeam)
+
+	if existingTeam.UpdatedAt == nil || time.Duration(team.UpdatedAt.Sub(*existingTeam.UpdatedAt)) > 0 {
+		db.Save(&teamModel)
+		return true
+	}
+	return false
 }

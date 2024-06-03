@@ -32,6 +32,7 @@ func SendUpdateMsgs(user *apimodels.User, team *apimodels.Teams, project *apimod
 		"- Final Mark: " + strconv.Itoa(team.FinalMark) + "\n" +
 		"- Project: " + project.Name + "\n" +
 		"- Status: " + team.Status + "\n" +
+		"- closed: " + strconv.FormatBool(team.Closed) + "\n" +
 		"- Validated: " + strconv.FormatBool(team.Validated) + "\n" +
 		"- Locked: " + strconv.FormatBool(team.Locked) + "\n" +
 		"- Locked At: " + team.LockedAt.Local().Format("02.01.2006 15:04") + "\n" +
