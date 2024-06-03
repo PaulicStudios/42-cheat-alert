@@ -70,3 +70,34 @@ func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) bool {
 	}
 	return false
 }
+
+func SaveApiTeamDetails(team *apimodels.Team) {
+	for _, apiScaleTeam := range team.ScaleTeams {
+		scaleTeam := models.ScaleTeam{
+			ID:        apiScaleTeam.ID,
+			TeamID:    team.ID,
+			ScaleID:   apiScaleTeam.ScaleID,
+			Comment:   apiScaleTeam.Comment,
+			CreatedAt: apiScaleTeam.CreatedAt,
+			UpdatedAt: apiScaleTeam.UpdatedAt,
+			Feedback:  apiScaleTeam.Feedback,
+			FinalMark: apiScaleTeam.FinalMark,
+			BeginAt:   apiScaleTeam.BeginAt,
+		}
+		if !apiScaleTeam.FilledAt.IsZero() {
+			scaleTeam.FilledAt = &apiScaleTeam.FilledAt
+		}
+		db.Save(&scaleTeam)
+
+		flag := models.Flag{
+			ScaleID:   apiScaleTeam.ID,
+			ID:        apiScaleTeam.Flag.ID,
+			Name:      apiScaleTeam.Flag.Name,
+			Positive:  apiScaleTeam.Flag.Positive,
+			Icon:      apiScaleTeam.Flag.Icon,
+			CreatedAt: apiScaleTeam.Flag.CreatedAt,
+			UpdatedAt: apiScaleTeam.Flag.UpdatedAt,
+		}
+		db.Save(&flag)
+	}
+}

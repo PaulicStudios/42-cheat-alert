@@ -5,7 +5,9 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func request(url string, target any) (*http.Response, error) {
@@ -14,6 +16,15 @@ func request(url string, target any) (*http.Response, error) {
 		return nil, err
 	}
 	defer req.Body.Close()
+	if req.StatusCode != 200 {
+		retryAfter, err := strconv.Atoi(req.Header.Get("Retry-After"))
+		if err != nil {
+			return nil, err
+		}
+		// log.Println("Rate limited, retrying in", retryAfter, "seconds")
+		time.Sleep(time.Duration(retryAfter) * time.Second)
+		return request(url, target)
+	}
 
 	body, readErr := io.ReadAll(req.Body)
 	if readErr != nil {

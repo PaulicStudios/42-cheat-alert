@@ -20,6 +20,10 @@ func UpdateProjects() {
 			db.SaveApiUser(&projectUser.User)
 			for _, team := range projectUser.Teams {
 				if db.SaveApiTeam(&projectUser.User, &team) {
+					teamDetails := requests.GetTeamDetails(team.ID)
+					if teamDetails != nil {
+						db.SaveApiTeamDetails(teamDetails)
+					}
 					telegram.SendUpdateMsgs(&projectUser.User, &team, &projectUser.Project)
 					log.Println("Updated team history for team", team.Name, "with final mark", team.FinalMark, "for user", projectUser.User.Login, "in project", team.ProjectID)
 				}
@@ -42,6 +46,10 @@ func UpdateProjectsLastMonth() {
 			db.SaveApiUser(&projectUser.User)
 			for _, team := range projectUser.Teams {
 				if db.SaveApiTeam(&projectUser.User, &team) {
+					teamDetails := requests.GetTeamDetails(team.ID)
+					if teamDetails != nil {
+						db.SaveApiTeamDetails(teamDetails)
+					}
 					// telegram.SendUpdateMsgs(&projectUser.User, &team, &projectUser.Project)
 					log.Println("Updated team history for team", team.Name, "with final mark", team.FinalMark, "for user", projectUser.User.Login, "in project", team.ProjectID)
 				}
