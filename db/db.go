@@ -27,6 +27,6 @@ func ConnectDB() {
 }
 
 func MigrateDB() {
-	db.AutoMigrate(&models.User{}, &models.Team{}, &models.TeamHistory{}, &models.TUser{})
+	db.AutoMigrate(&models.User{}, &models.Team{}, &models.TUser{})
 	log.Println("Migrated database")
 }
