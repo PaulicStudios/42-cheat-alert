@@ -27,12 +27,12 @@ func GetRecentProjectUsers(page int) (*apimodels.ProjectsUsers, bool) {
 
 func GetRecentProjectUsersLastMonth(page int) (*apimodels.ProjectsUsers, bool) {
 	projects_users := apimodels.ProjectsUsers{}
-	// now := time.Now().AddDate(0, 0, 0).Format("2006-01-02T15:04:05.000Z")
-	// yearAgo := time.Now().AddDate(0, -1, 0).Format("2006-01-02T15:04:05.000Z")
+	now := time.Now().AddDate(0, 0, 0).Format("2006-01-02T15:04:05.000Z")
+	yearAgo := time.Now().AddDate(0, -2, 0).Format("2006-01-02T15:04:05.000Z")
 	url := "https://api.intra.42.fr/v2/projects_users" +
 		// "?filter[final_mark]=-42" +
 		"?filter[campus]=39" +
-		// "&range[updated_at]=" + yearAgo + "," + now +
+		"&range[updated_at]=" + yearAgo + "," + now +
 		"&page[number]=" + strconv.Itoa(page) + "&page[size]=100"
 	responce, err := request(url, &projects_users)
 	if err != nil {

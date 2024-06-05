@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	args := os.Args
 	godotenv.Load()
 	db.ConnectDB()

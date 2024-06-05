@@ -8,12 +8,13 @@ import (
 )
 
 func GetTeamDetails(teamID int) *apimodels.Team {
+	teamIDstr := strconv.Itoa(teamID)
 	var teamDetails apimodels.Team
 
-	url := "https://api.intra.42.fr/v2/teams/" + strconv.Itoa(teamID)
+	url := "https://api.intra.42.fr/v2/teams/" + teamIDstr
 	_, err := request(url, &teamDetails)
 	if err != nil {
-		log.Println(err, "for team", strconv.Itoa(teamID))
+		log.Println(err, "for team", teamIDstr)
 		return nil
 	}
 	return &teamDetails
