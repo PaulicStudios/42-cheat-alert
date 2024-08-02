@@ -21,5 +21,7 @@ type User struct {
 	UpdatedAt       time.Time
 	Alumni          bool
 	Active          bool
+	XP              *float64
+	CurrentProject  *string
 	Teams           []*Team `gorm:"many2many:user_teams;"`
 }

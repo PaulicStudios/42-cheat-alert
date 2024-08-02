@@ -38,7 +38,8 @@ func main() {
 				cheatalert.UpdateProjects()
 			}
 		}()
-		telegram.Init_telegram()
+		select {}
+		// telegram.Init_telegram()
 	case "list":
 		teams := db.GetAllCheaterTeams()
 		for _, team := range teams {
@@ -46,7 +47,9 @@ func main() {
 		}
 	case "test":
 		println(requests.TestGetTeamDetails(12).Name)
+	case "pisciner":
+		cheatalert.GetPisciners()
 	default:
-		println("Usage: ./42-cheat-alert <update|timer|list>")
+		println("Usage: ./42-cheat-alert <update|timer|list|pisciner>")
 	}
 }

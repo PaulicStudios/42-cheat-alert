@@ -38,6 +38,38 @@ func SaveApiUser(user *apimodels.User) {
 	})
 }
 
+func SaveApiDetailUser(user *apimodels.UserDetailed) {
+	var currentProject *string
+	if len(user.ProjectsUsers) > 0 {
+		currentProject = &user.ProjectsUsers[0].Project.Name
+	} else {
+		currentProject = nil
+	}
+
+	SaveUser(&models.User{
+		ID:              user.ID,
+		Email:           user.Email,
+		Login:           user.Login,
+		FirstName:       user.FirstName,
+		LastName:        user.LastName,
+		UsualFullName:   user.UsualFullName,
+		Phone:           user.Phone,
+		Displayname:     user.Displayname,
+		Kind:            user.Kind,
+		Staff:           user.Staff,
+		CorrectionPoint: user.CorrectionPoint,
+		PoolMonth:       user.PoolMonth,
+		PoolYear:        user.PoolYear,
+		Wallet:          user.Wallet,
+		CreatedAt:       user.CreatedAt,
+		UpdatedAt:       user.UpdatedAt,
+		Alumni:          user.Alumni,
+		Active:          user.Active,
+		XP:              &user.CursusUsers[0].Level,
+		CurrentProject:  currentProject,
+	})
+}
+
 func SaveApiTeam(user *apimodels.User, team *apimodels.Teams) bool {
 	teamModel := models.Team{
 		ID:                team.ID,
